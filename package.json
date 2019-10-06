@@ -1,0 +1,35 @@
+{
+  "name": "bumbledb",
+  "version": "0.1.0",
+  "description": "Embedded, file-based database with MongoDB-like API for Node.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "database",
+    "embedded",
+    "nosql",
+    "datastore",
+    "db",
+    "mongodb",
+    "nedb",
+    "tingodb",
+    "lokijs"
+  ],
+  "author": "Ricki-BumbleDev",
+  "license": "MIT",
+  "dependencies": {
+    "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/lodash.get": "^4.4.6",
+    "@types/node": "^12.7.11",
+    "@types/rimraf": "^2.0.2",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
+  }
+}
