@@ -2,8 +2,12 @@
   "name": "bumbledb",
   "version": "0.1.0",
   "description": "Embedded, file-based database with MongoDB-like API for Node.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest"
+    "build": "tsc",
+    "test": "jest",
+    "prepare": "npm run build"
   },
   "keywords": [
     "database",
@@ -16,8 +20,11 @@
     "tingodb",
     "lokijs"
   ],
-  "author": "Ricki-BumbleDev",
+  "author": "bumbledev",
   "license": "MIT",
+  "files": [
+    "lib/**/*"
+  ],
   "dependencies": {
     "lodash.get": "^4.4.2"
   },
