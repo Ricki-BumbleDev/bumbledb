@@ -1,30 +1,33 @@
 {
   "name": "bumbledb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Embedded, file-based database with MongoDB-like API for Node.js",
+  "keywords": [
+    "database",
+    "datastore",
+    "db",
+    "embedded",
+    "lokijs",
+    "mongodb",
+    "nedb",
+    "nosql",
+    "tingodb"
+  ],
+  "repository": {
+    "url": "https://github.com/Ricki-BumbleDev/bumbledb"
+  },
+  "license": "MIT",
+  "author": "bumbledev",
+  "files": [
+    "lib/**/*"
+  ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test": "jest"
   },
-  "keywords": [
-    "database",
-    "embedded",
-    "nosql",
-    "datastore",
-    "db",
-    "mongodb",
-    "nedb",
-    "tingodb",
-    "lokijs"
-  ],
-  "author": "bumbledev",
-  "license": "MIT",
-  "files": [
-    "lib/**/*"
-  ],
   "dependencies": {
     "lodash.get": "^4.4.2"
   },

@@ -7,7 +7,7 @@ Embedded, file-based database with MongoDB-like API for Node.js
 ```ts
 import { BumbleClient } from 'bumbledb';
 
-const main = asnyc () => {
+const main = async () => {
   const dataDirectory = process.env.DATA_DIRECTORY || '.data';
 
   const db = await BumbleClient.connect(dataDirectory);
