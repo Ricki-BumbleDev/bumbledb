@@ -5,10 +5,7 @@ afterEach(cleanup);
 
 test('find with criteria', async () => {
   const db = await getDbWithTestData();
-  const result = await db
-    .collection('test')
-    .find({ firstName: 'Amanda' })
-    .toArray();
+  const result = await db.collection('test').find({ firstName: 'Amanda' }).toArray();
   expect(result).toEqual([testData[1], testData[2]]);
 });
 
@@ -20,10 +17,7 @@ test('findOne', async () => {
 
 test('find with no match', async () => {
   const db = await getDbWithTestData();
-  const result = await db
-    .collection('test')
-    .find({ email: 'roman.anderson@einrot.com' })
-    .toArray();
+  const result = await db.collection('test').find({ email: 'roman.anderson@einrot.com' }).toArray();
   expect(result).toEqual([]);
 });
 
@@ -41,10 +35,7 @@ test('findOne with two criteria', async () => {
 
 test('find with nested criteria', async () => {
   const db = await getDbWithTestData();
-  const result = await db
-    .collection('test')
-    .find({ 'address.country': 'Cayman Islands' })
-    .toArray();
+  const result = await db.collection('test').find({ 'address.country': 'Cayman Islands' }).toArray();
   expect(result).toEqual([testData[1], testData[3]]);
 });
 

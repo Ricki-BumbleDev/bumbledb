@@ -5,12 +5,12 @@ Embedded, file-based database with MongoDB-like API for Node.js
 ## Getting started
 
 ```ts
-import { BumbleClient } from 'bumbledb';
+import initializeDb from 'bumbledb';
 
 const main = async () => {
-  const dataDirectory = process.env.DATA_DIRECTORY || '.data';
+  const dataDirectory = process.env.DATA_DIRECTORY ?? '.data';
 
-  const db = await BumbleClient.connect(dataDirectory);
+  const db = await initializeDb(dataDirectory);
 
   const someDocument = { id: 1, name: 'Meredith', country: 'US' };
   await db.collection('users').insertOne(someDocument);
