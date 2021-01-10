@@ -1,4 +1,4 @@
-import { createReadStream, createWriteStream, promises as fs, rename } from 'fs';
+import { createReadStream, createWriteStream, promises as fs } from 'fs';
 import get from 'lodash.get';
 import path from 'path';
 import readline from 'readline';
@@ -27,13 +27,13 @@ const createFileIfDoesntExist = async (filePath: string) => {
 };
 
 const applyQuery = (query: Record<string, any>, entry: Record<string, any>) =>
-  !Object.entries(query).find(([key, value]) => get(entry, key) !== value);
+  Object.entries(query).every(([key, value]) => get(entry, key) === value);
 
 export class Collection {
   private collectionFile: string;
 
   constructor(dataDirectory: string, name: string) {
-    this.collectionFile = path.join(dataDirectory, name + '.jsonl');
+    this.collectionFile = path.join(dataDirectory, name + '.ndjson');
   }
 
   public find<T extends Record<string, any> = Record<string, any>>(query: Partial<T>) {
@@ -92,7 +92,7 @@ export class Collection {
     const readInterface = readline.createInterface({
       input: createReadStream(this.collectionFile)
     });
-    const tempCollectionFile = this.collectionFile.slice(0, -6) + '.temp.jsonl';
+    const tempCollectionFile = this.collectionFile.slice(0, -7) + '.temp.ndjson';
     const writeStream = createWriteStream(tempCollectionFile);
     await new Promise(resolve =>
       readInterface
@@ -106,7 +106,7 @@ export class Collection {
         })
         .on('close', () => {
           writeStream.close();
-          resolve();
+          resolve(undefined);
         })
     );
     await fs.rename(tempCollectionFile, this.collectionFile);
@@ -118,7 +118,7 @@ export class Collection {
     const readInterface = readline.createInterface({
       input: createReadStream(this.collectionFile)
     });
-    const tempCollectionFile = this.collectionFile.slice(0, -6) + '.temp.jsonl';
+    const tempCollectionFile = this.collectionFile.slice(0, -6) + '.temp.ndjson';
     let affected = 0;
     const writeStream = createWriteStream(tempCollectionFile);
     await new Promise(resolve =>
@@ -133,7 +133,7 @@ export class Collection {
         })
         .on('close', () => {
           writeStream.close();
-          resolve();
+          resolve(undefined);
         })
     );
     await fs.rename(tempCollectionFile, this.collectionFile);
@@ -142,13 +142,7 @@ export class Collection {
 }
 
 const initializeDb = async (dataDirectory: string) => {
-  try {
-    await fs.mkdir(dataDirectory);
-  } catch (e) {
-    if (e.code !== 'EEXIST') {
-      throw e;
-    }
-  }
+  await fs.mkdir(dataDirectory, { recursive: true });
   return new Db(dataDirectory);
 };
 

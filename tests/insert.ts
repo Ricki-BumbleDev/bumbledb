@@ -1,5 +1,5 @@
-import { cleanup, getEmptyDb } from './utils';
-import testData from './utils/test-data';
+import { cleanup, getEmptyDb } from './util';
+import testData from './util/test-data';
 
 afterEach(cleanup);
 
