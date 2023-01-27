@@ -19,7 +19,7 @@ const createFileIfDoesntExist = async (filePath: string) => {
   try {
     const fileHandle = await fs.open(filePath, 'wx');
     await fileHandle.close();
-  } catch (e) {
+  } catch (e: any) {
     if (e.code !== 'EEXIST') {
       throw e;
     }
