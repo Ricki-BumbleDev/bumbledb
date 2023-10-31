@@ -10,8 +10,8 @@ export class Db {
     this.dataDirectory = dataDirectory;
   }
 
-  public collection(name: string) {
-    return new Collection(this.dataDirectory, name);
+  public collection<T extends Record<string, any> = Record<string, any>>(name: string) {
+    return new Collection<T>(this.dataDirectory, name);
   }
 }
 

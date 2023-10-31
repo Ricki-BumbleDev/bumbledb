@@ -1,6 +1,6 @@
 {
   "name": "bumbledb",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Embedded, file-based database with MongoDB-like API for Node.js",
   "keywords": [
     "database",

@@ -1,3 +1,3 @@
-const config = { dataDirectory: '.data/blub' };
+const config = { dataDirectory: '.data' };
 
 export default config;
