@@ -7,19 +7,15 @@ Embedded, file-based database with MongoDB-like API for Node.js
 ```ts
 import initializeDb from 'bumbledb';
 
-const main = async () => {
-  const dataDirectory = process.env.DATA_DIRECTORY ?? '.data';
+const dataDirectory = process.env.DATA_DIRECTORY ?? '.data';
 
-  const db = await initializeDb(dataDirectory);
+const db = await initializeDb(dataDirectory);
 
-  const someDocument = { id: 1, name: 'Meredith', country: 'US' };
-  await db.collection('users').insertOne(someDocument);
+const someDocument = { id: 1, name: 'Meredith', country: 'US' };
+await db.collection('users').insertOne(someDocument);
 
-  const result = await db.collection('users').find({}).toArray();
-  console.log(result);
-}
-
-main();
+const result = await db.collection('users').find({}).toArray();
+console.log(result);
 ```
 
 ## Insert data
@@ -65,7 +61,7 @@ Get documents matching query
 ```ts
 const result = await db
   .collection('users')
-  .find({ name: '', country: 'DE' })
+  .find({ name: 'Monika', country: 'DE' })
   .toArray();
 ```
 

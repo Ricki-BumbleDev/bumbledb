@@ -29,14 +29,14 @@ const createFileIfDoesntExist = async (filePath: string) => {
 const applyQuery = (query: Record<string, any>, entry: Record<string, any>) =>
   Object.entries(query).every(([key, value]) => get(entry, key) === value);
 
-export class Collection {
+export class Collection<T extends Record<string, any> = Record<string, any>> {
   private collectionFile: string;
 
   constructor(dataDirectory: string, name: string) {
     this.collectionFile = path.join(dataDirectory, name + '.ndjson');
   }
 
-  public find<T extends Record<string, any> = Record<string, any>>(query: Partial<T>) {
+  public find(query: Partial<T>) {
     return {
       toArray: async () => {
         await createFileIfDoesntExist(this.collectionFile);
@@ -57,44 +57,44 @@ export class Collection {
     };
   }
 
-  public async findOne<T extends Record<string, any> = Record<string, any>>(query: Partial<T>) {
+  public async findOne(query: Partial<T>) {
     await createFileIfDoesntExist(this.collectionFile);
     const readInterface = readline.createInterface({
       input: createReadStream(this.collectionFile)
     });
-    return new Promise(resolve =>
+    return new Promise<T | undefined>(resolve =>
       readInterface
         .on('line', line => {
-          const entry = JSON.parse(line);
+          const entry: T = JSON.parse(line);
           if (applyQuery(query, entry)) {
             resolve(entry);
             readInterface.close();
           }
         })
-        .on('close', () => resolve(null))
+        .on('close', () => resolve(undefined))
     );
   }
 
-  public async insertMany(documents: any[]) {
+  public async insertMany(documents: T[]) {
     await createFileIfDoesntExist(this.collectionFile);
     await fs.appendFile(this.collectionFile, documents.map(entry => JSON.stringify(entry) + '\n').join(''));
     return documents;
   }
 
-  public async insertOne(document: any) {
+  public async insertOne(document: T) {
     await createFileIfDoesntExist(this.collectionFile);
     await fs.appendFile(this.collectionFile, JSON.stringify(document) + '\n');
     return document;
   }
 
-  public async update<T extends Record<string, any> = Record<string, any>>(query: Partial<T>, document: any) {
+  public async update(query: Partial<T>, document: T) {
     await createFileIfDoesntExist(this.collectionFile);
     const readInterface = readline.createInterface({
       input: createReadStream(this.collectionFile)
     });
     const tempCollectionFile = this.collectionFile.slice(0, -7) + '.temp.ndjson';
     const writeStream = createWriteStream(tempCollectionFile);
-    await new Promise(resolve =>
+    await new Promise<void>(resolve =>
       readInterface
         .on('line', line => {
           const entry = JSON.parse(line);
@@ -106,14 +106,14 @@ export class Collection {
         })
         .on('close', () => {
           writeStream.close();
-          resolve(undefined);
+          resolve();
         })
     );
     await fs.rename(tempCollectionFile, this.collectionFile);
     return document;
   }
 
-  public async delete<T extends Record<string, any> = Record<string, any>>(query: Partial<T>) {
+  public async delete(query: Partial<T>) {
     await createFileIfDoesntExist(this.collectionFile);
     const readInterface = readline.createInterface({
       input: createReadStream(this.collectionFile)
@@ -121,7 +121,7 @@ export class Collection {
     const tempCollectionFile = this.collectionFile.slice(0, -6) + '.temp.ndjson';
     let affected = 0;
     const writeStream = createWriteStream(tempCollectionFile);
-    await new Promise(resolve =>
+    await new Promise<void>(resolve =>
       readInterface
         .on('line', line => {
           const entry = JSON.parse(line);
@@ -133,7 +133,7 @@ export class Collection {
         })
         .on('close', () => {
           writeStream.close();
-          resolve(undefined);
+          resolve();
         })
     );
     await fs.rename(tempCollectionFile, this.collectionFile);

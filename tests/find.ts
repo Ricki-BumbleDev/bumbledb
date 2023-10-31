@@ -24,7 +24,7 @@ test('find with no match', async () => {
 test('findOne with no match', async () => {
   const db = await getDbWithTestData();
   const result = await db.collection('test').findOne({ email: 'roman.anderson@einrot.com' });
-  expect(result).toBeNull();
+  expect(result).toBeUndefined();
 });
 
 test('findOne with two criteria', async () => {
@@ -48,5 +48,5 @@ test('findOne with nested criteria', async () => {
 test('findOne with two criteria and one not matching', async () => {
   const db = await getDbWithTestData();
   const result = await db.collection('test').findOne({ email: 'amanda.cross@einrot.com', lastName: 'Taylor' });
-  expect(result).toBeNull();
+  expect(result).toBeUndefined();
 });
