@@ -1,6 +1,6 @@
 {
   "name": "bumbledb",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Embedded, file-based database with MongoDB-like API for Node.js",
   "keywords": [
     "database",
@@ -18,11 +18,12 @@
   },
   "license": "MIT",
   "author": "BumbleDev",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib/**/*"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && tsc",
     "prepare": "npm run build",

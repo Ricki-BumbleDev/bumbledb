@@ -1,5 +1,6 @@
-import { createReadStream, createWriteStream, promises as fs } from 'fs';
 import get from 'lodash.get';
+import fsStreams from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'path';
 import readline from 'readline';
 
@@ -41,7 +42,7 @@ export class Collection<T extends Record<string, any> = Record<string, any>> {
       toArray: async () => {
         await createFileIfDoesntExist(this.collectionFile);
         const readInterface = readline.createInterface({
-          input: createReadStream(this.collectionFile)
+          input: fsStreams.createReadStream(this.collectionFile)
         });
         const result: T[] = [];
         readInterface.on('line', line => {
@@ -60,7 +61,7 @@ export class Collection<T extends Record<string, any> = Record<string, any>> {
   public async findOne(query: Partial<T>) {
     await createFileIfDoesntExist(this.collectionFile);
     const readInterface = readline.createInterface({
-      input: createReadStream(this.collectionFile)
+      input: fsStreams.createReadStream(this.collectionFile)
     });
     return new Promise<T | undefined>(resolve =>
       readInterface
@@ -90,10 +91,10 @@ export class Collection<T extends Record<string, any> = Record<string, any>> {
   public async update(query: Partial<T>, document: T) {
     await createFileIfDoesntExist(this.collectionFile);
     const readInterface = readline.createInterface({
-      input: createReadStream(this.collectionFile)
+      input: fsStreams.createReadStream(this.collectionFile)
     });
     const tempCollectionFile = this.collectionFile.slice(0, -7) + '.temp.ndjson';
-    const writeStream = createWriteStream(tempCollectionFile);
+    const writeStream = fsStreams.createWriteStream(tempCollectionFile);
     await new Promise<void>(resolve =>
       readInterface
         .on('line', line => {
@@ -116,11 +117,11 @@ export class Collection<T extends Record<string, any> = Record<string, any>> {
   public async delete(query: Partial<T>) {
     await createFileIfDoesntExist(this.collectionFile);
     const readInterface = readline.createInterface({
-      input: createReadStream(this.collectionFile)
+      input: fsStreams.createReadStream(this.collectionFile)
     });
     const tempCollectionFile = this.collectionFile.slice(0, -6) + '.temp.ndjson';
     let affected = 0;
-    const writeStream = createWriteStream(tempCollectionFile);
+    const writeStream = fsStreams.createWriteStream(tempCollectionFile);
     await new Promise<void>(resolve =>
       readInterface
         .on('line', line => {
