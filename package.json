@@ -1,6 +1,6 @@
 {
   "name": "bumbledb",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Embedded, file-based database with MongoDB-like API for Node.js",
   "keywords": [
     "database",
@@ -19,6 +19,7 @@
   "license": "MIT",
   "author": "BumbleDev",
   "type": "module",
+  "types": "./lib/index.d.ts",
   "exports": {
     "types": "./lib/index.d.ts",
     "import": "./lib/index.js",
