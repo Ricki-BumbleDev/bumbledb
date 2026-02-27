@@ -74,6 +74,14 @@ const result = await db
   .toArray();
 ```
 
+Stream results with async iteration
+
+```ts
+for await (const user of db.collection('users').find({ country: 'DE' })) {
+  console.log(user);
+}
+```
+
 ## Update data
 
 ### `update`
@@ -89,4 +97,27 @@ await db.collection('users').update({ id: 1 }, newDocument);
 
 ```ts
 const affected = await db.collection('users').delete({ id: 1 });
+```
+
+## Drop data
+
+### Drop a collection
+
+```ts
+await db.collection('users').drop();
+```
+
+### Drop the database
+
+```ts
+await db.drop();
+```
+
+## List collections
+
+### `collections`
+
+```ts
+const names = await db.collections();
+// ['users', 'posts']
 ```
